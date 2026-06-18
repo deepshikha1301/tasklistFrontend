@@ -1,0 +1,27 @@
+<div class="card form-container">
+  <div class="center">
+    <h2>Create account</h2>
+    <p class="muted">Enter details to create a new account</p>
+  </div>
+
+  <form (ngSubmit)="submit()">
+    <label>
+      Email
+      <input type="email" name="email" [(ngModel)]="email" required />
+    </label>
+
+    <label>
+      Login ID
+      <input name="loginid" [(ngModel)]="loginid" required />
+    </label>
+
+    <label>
+      Password
+      <input type="password" name="password" [(ngModel)]="password" required />
+    </label>
+
+    <div style="margin-top:0.75rem; display:flex; justify-content:flex-end;">
+      <button type="submit" class="btn">Create Account</button>
+    </div>
+  </form>
+</div>

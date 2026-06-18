@@ -1,0 +1,24 @@
+<div class="card form-container">
+  <div class="center">
+    <h2>Login</h2>
+    <p class="muted">Sign in to your account</p>
+  </div>
+
+  <form (ngSubmit)="submit()">
+    <label>
+      Login ID
+      <input name="loginid" [(ngModel)]="loginid" required />
+    </label>
+
+    <label>
+      Password
+      <input type="password" name="password" [(ngModel)]="password" required />
+    </label>
+
+    <div style="margin-top:0.75rem; display:flex; gap:0.5rem; justify-content:flex-end;">
+      <button type="submit" class="btn">Sign In</button>
+    </div>
+  </form>
+
+  <p style="margin-top:0.75rem; text-align:center">Don't have an account? <a routerLink="/signup">Sign up</a></p>
+</div>
