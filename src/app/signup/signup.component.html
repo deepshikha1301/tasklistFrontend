@@ -12,7 +12,7 @@
 
     <label>
       Login ID
-      <input name="loginid" [(ngModel)]="loginid" required />
+      <input name="loginid" [(ngModel)]="loginId" required />
     </label>
 
     <label>
@@ -24,4 +24,7 @@
       <button type="submit" class="btn">Create Account</button>
     </div>
   </form>
+  <div *ngIf="signupError" class="error">
+  {{ signupError }}
+</div>
 </div>

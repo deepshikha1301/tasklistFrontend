@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import {HttpClient} from '@angular/common/http'
 
 @Component({
   selector: 'app-signup',
@@ -12,13 +13,29 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent {
   email = '';
-  loginid = '';
+  loginId = '';
   password = '';
+   signupError = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
   submit() {
-    alert(`Signup submitted: ${this.email}`);
-    this.router.navigate(['/login']);
+    console.log('Signup submitted:', this.email, this.loginId, this.password);
+    const url = 'http://localhost:8080/api/users/register';
+    const body = {
+      email: this.email,
+      loginId: this.loginId,
+      password: this.password
+    };
+    this.http.post(url, body).subscribe({
+      next: () => {
+        alert(`Signup submitted: ${this.email}`);
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Error submitting signup:', error);
+        this.signupError = 'Failed to submit signup. Please try again.';
+      }
+    });
   }
 }
