@@ -1,0 +1,19 @@
+<div class="card form-container">
+  <div class="center">
+    <h2>Task List</h2>
+    <p class="muted">Add tasks to your list</p>
+  </div>
+
+  <div class="add-row">
+    <input
+      type="text"
+      placeholder="Enter a new task"
+      [(ngModel)]="newItem"
+    />
+    <button type="button" class="btn" (click)="addItem()">Add item</button>
+  </div>
+
+  <ul class="task-list">
+    <li *ngFor="let item of items">{{ item }}</li>
+  </ul>
+</div>

@@ -17,8 +17,7 @@ export class LoginComponent {
   constructor(private router: Router) {}
 
   submit() {
-    // placeholder handling
-    alert(`Login submitted: ${this.loginid}`);
+    this.router.navigate(['/list']);
   }
 
   goSignup() {
