@@ -1,19 +1,24 @@
 <div class="card form-container">
   <div class="center">
-    <h2>Task List</h2>
-    <p class="muted">Add tasks to your list</p>
+    <h3>Task List</h3>
   </div>
 
-  <div class="add-row">
-    <input
-      type="text"
-      placeholder="Enter a new task"
-      [(ngModel)]="newItem"
-    />
-    <button type="button" class="btn" (click)="addItem()">Add item</button>
-  </div>
+<ul class="task-list">
+  <li *ngFor="let item of items; let i = index" class="task-item">
+      <input type="radio" name="taskDone" [(ngModel)]="item.done" (change)="onTaskChange(i, $event)" />&nbsp;
+      <span [class.completed]="item.done">{{ item.text }}</span>
+  </li>
+</ul>
 
-  <ul class="task-list">
-    <li *ngFor="let item of items">{{ item }}</li>
-  </ul>
+<div class="add-row" *ngIf="showInput">
+  <input
+    type="text"
+    placeholder="Enter a new task"
+    [(ngModel)]="newItem"
+    (keydown.enter)="addItem()"
+  />
+</div>
+
+<button type="button" class="btn plus-btn" (click)="toggleInput()">+</button>
+
 </div>
