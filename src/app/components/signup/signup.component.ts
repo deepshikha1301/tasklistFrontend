@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import {HttpClient} from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +15,7 @@ export class SignupComponent {
   email = '';
   loginId = '';
   password = '';
-   signupError = '';
+  signupError = '';
 
   constructor(private router: Router, private http: HttpClient) {}
 
