@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 interface Task {
   text: string;
@@ -20,12 +21,28 @@ export class List {
   newItem = '';
   showInput = false;
 
+  constructor(private http: HttpClient) {}
+
   toggleInput() {
     this.showInput = true;
   }
 
   addItem() {
     console.log('Adding item:', this.newItem);
+    const url = 'http://localhost:8080/api/tasks';
+    const body = { 
+      loginId:localStorage.getItem('loginId'),
+      taskName: this.newItem.trim()
+    };
+    this.http.post(url, body).subscribe({
+      next: (response:any) => {
+        console.log('Task added successfully:', response);
+      },
+      error: (error) => {
+        console.error('Error adding task:', error);
+      }
+    });
+
     const value = this.newItem.trim();
     if (!value) return;
     this.items.push({ text: value, done: false });
