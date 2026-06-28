@@ -23,6 +23,29 @@ export class List {
 
   constructor(private http: HttpClient) {}
 
+  ngOnInit() {
+    this.fetchTasks();
+  }
+
+  fetchTasks() {
+    const loginId = localStorage.getItem('loginId');
+    if (!loginId) {
+      console.error('No loginId found in localStorage.');
+      return;
+    }
+    
+    const url = `http://localhost:8080/api/tasks/${loginId}`;
+    this.http.get<string[]>(url).subscribe({
+      next: (response) => {
+        this.items = response.map(task => ({ text: task, done: false }));
+        console.log('Fetched tasks:', this.items);
+      },
+      error: (error) => {
+        console.error('Error fetching tasks:', error);
+      }
+    });
+  }
+
   toggleInput() {
     this.showInput = true;
   }

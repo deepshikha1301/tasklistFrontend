@@ -20,7 +20,7 @@ export class SignupComponent {
   constructor(private router: Router, private http: HttpClient) {}
 
   submit() {
-    console.log('Signup submitted:', this.email, this.loginId, this.password);
+    console.log('Signup submitted:', this.email, this.loginId);
     const url = 'http://localhost:8080/api/users/register';
     const body = {
       email: this.email,
