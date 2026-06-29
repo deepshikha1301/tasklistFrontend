@@ -5,7 +5,11 @@
 
 <ul class="task-list">
   <li *ngFor="let item of items; let i = index" class="task-item">
-      <input type="radio" name="taskDone" [(ngModel)]="item.done" (change)="onTaskChange(i, $event)" />&nbsp;
+      <input
+        type="checkbox"
+        [checked]="item.done"
+        (change)="onTaskChange(i, $event)"
+      />
       <span [class.completed]="item.done">{{ item.text }}</span>
   </li>
 </ul>

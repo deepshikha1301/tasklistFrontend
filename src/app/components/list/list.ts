@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { ChangeDetectorRef } from '@angular/core';
 
 interface Task {
   text: string;
@@ -21,7 +22,7 @@ export class List {
   newItem = '';
   showInput = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.fetchTasks();
@@ -38,6 +39,7 @@ export class List {
     this.http.get<string[]>(url).subscribe({
       next: (response) => {
         this.items = response.map(task => ({ text: task, done: false }));
+        this.cdRef.detectChanges();
         console.log('Fetched tasks:', this.items);
       },
       error: (error) => {
@@ -47,7 +49,7 @@ export class List {
   }
 
   toggleInput() {
-    this.showInput = true;
+    this.showInput = !this.showInput;
   }
 
   addItem() {
@@ -70,17 +72,34 @@ export class List {
     if (!value) return;
     this.items.push({ text: value, done: false });
     this.newItem = '';
-    this.showInput = false;
   }
 
     removeItem(index: number) {
-    this.items.splice(index, 1);
-    console.log(`Removed item at index ${index}`, this.items);
+      const url = `http://localhost:8080/api/tasks/delete`;
+      const body ={
+        loginId: localStorage.getItem('loginId'),
+        taskName: this.items[index].text
+      }
+
+      this.http.delete(url, { body }).subscribe({
+        next: (response:any) => {
+          console.log('Task removed successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error removing task:', error);
+        }
+      });
+
+      this.items.splice(index, 1);
+      console.log(`Removed item at index ${index}`, this.items);
   }
 
-  onTaskChange(index: number, event: any) {
-  const isChecked = event.target.checked;
-  console.log(`Task at index ${index} changed. Done status: ${isChecked}`);
+  onTaskChange(index: number, event: Event) {
+    const input = event.target as HTMLInputElement;
+    const isChecked = input.checked;
+    this.items[index].done = isChecked;
+
+    console.log(`Task at index ${index} changed. Done status: ${isChecked}`);
     if (isChecked) {
       this.removeItem(index);
     }
