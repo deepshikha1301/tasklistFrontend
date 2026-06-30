@@ -4,20 +4,37 @@
     <p class="muted">Enter details to create a new account</p>
   </div>
 
-  <form (ngSubmit)="submit()">
+  <form #signupForm="ngForm" (ngSubmit)="submit(signupForm)">
     <label>
       Email
-      <input type="email" name="email" [(ngModel)]="email" required />
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        required
+        email
+        #emailControl="ngModel"
+      />
+      <div *ngIf="emailControl.invalid && (emailControl.dirty || emailControl.touched)" class="error">
+        <span *ngIf="emailControl.errors?.['required']">Email is required.</span>
+        <span *ngIf="emailControl.errors?.['email']">Please enter a valid email address.</span>
+      </div>
     </label>
 
     <label>
       Login ID
-      <input name="loginid" [(ngModel)]="loginId" required />
+      <input name="loginid" [(ngModel)]="loginId" required  #loginIdControl="ngModel"/>
+      <div *ngIf="loginIdControl.invalid && (loginIdControl.dirty || loginIdControl.touched)" class="error">
+        <span *ngIf="loginIdControl.errors?.['required']">Login ID is required.</span>
+      </div>
     </label>
 
     <label>
       Password
-      <input type="password" name="password" [(ngModel)]="password" required />
+      <input type="password" name="password" [(ngModel)]="password" required #passwordControl="ngModel"/>
+      <div *ngIf="passwordControl.invalid && (passwordControl.dirty || passwordControl.touched)" class="error">
+        <span *ngIf="passwordControl.errors?.['required']">Password is required.</span>
+      </div>
     </label>
 
     <div style="margin-top:0.75rem; display:flex; justify-content:flex-end;">

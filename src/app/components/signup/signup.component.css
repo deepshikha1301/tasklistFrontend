@@ -2,4 +2,9 @@
 label{ display:flex; flex-direction:column; gap:0.25rem }
 input{ padding:0.6rem; border-radius:8px; border:1px solid #e6e9f0 }
 .muted{ color:var(--muted); font-size:0.95rem }
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
 

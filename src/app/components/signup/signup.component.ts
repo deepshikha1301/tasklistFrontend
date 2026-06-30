@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
@@ -19,7 +19,12 @@ export class SignupComponent {
 
   constructor(private router: Router, private http: HttpClient) {}
 
-  submit() {
+  submit(form: NgForm) {
+    if (form.invalid) {
+      form.control.markAllAsTouched();
+      return;
+    }
+
     console.log('Signup submitted:', this.email, this.loginId);
     const url = 'http://localhost:8080/api/users/register';
     const body = {
@@ -29,7 +34,6 @@ export class SignupComponent {
     };
     this.http.post(url, body).subscribe({
       next: () => {
-        alert(`Signup submitted: ${this.email}`);
         this.router.navigate(['/login']);
       },
       error: (error) => {
