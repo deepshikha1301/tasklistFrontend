@@ -54,7 +54,7 @@ export class List {
 
   addItem() {
     console.log('Adding item:', this.newItem);
-    const url = 'http://localhost:8080/api/tasks';
+    const url = '/api/tasks';
     const body = { 
       loginId:localStorage.getItem('loginId'),
       taskName: this.newItem.trim()
@@ -75,7 +75,7 @@ export class List {
   }
 
     removeItem(index: number) {
-      const url = `http://localhost:8080/api/tasks/delete`;
+      const url = `/api/tasks/delete`;
       const body ={
         loginId: localStorage.getItem('loginId'),
         taskName: this.items[index].text

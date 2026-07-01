@@ -26,7 +26,7 @@ export class SignupComponent {
     }
 
     console.log('Signup submitted:', this.email, this.loginId);
-    const url = 'http://localhost:8080/api/users/register';
+    const url = '/api/users/register';
     const body = {
       email: this.email,
       loginId: this.loginId,

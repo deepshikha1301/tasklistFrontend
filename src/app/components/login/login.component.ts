@@ -20,7 +20,7 @@ export class LoginComponent {
 
   submit() {
     console.log('Login submitted:', this.loginid);
-    const url = 'http://localhost:8080/api/users/login';
+    const url = '/api/users/login';
     const body = {
       loginId: this.loginid,
       password: this.password
