@@ -20,21 +20,10 @@ export class LoginComponent {
 
   submit() {
     console.log('Login submitted:', this.loginid);
-    const url = '/api/users/login';
-    const body = {
-      loginId: this.loginid,
-      password: this.password
-    };
-    this.http.post(url, body).subscribe({
-      next: (response:any) => {
-        const loginId = response?.loginId || this.loginid;
-        this.authService.setLoginId(loginId);
-        this.router.navigate(['/list']);
-      },
-      error: (error) => {
-        console.error('Error submitting login:', error);
-        alert('Failed to submit login. Please try again.');
-      }
+    this.authService.login(this.loginid, this.password).subscribe((res:any) => {
+      console.log('Login response:', res);
+      this.authService.setToken(res.token);
+      this.router.navigate(['/list']);
     })
   }
 
