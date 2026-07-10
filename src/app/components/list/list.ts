@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef } from '@angular/core';
+import { Taskservice } from '../../services/taskservice';
 
 interface Task {
   text: string;
@@ -22,7 +23,7 @@ export class List {
   newItem = '';
   showInput = false;
 
-  constructor(private http: HttpClient, private cdRef: ChangeDetectorRef) {}
+  constructor(private http: HttpClient, private cdRef: ChangeDetectorRef, private taskService: Taskservice) {}
 
   ngOnInit() {
     this.fetchTasks();
@@ -30,15 +31,13 @@ export class List {
 
   fetchTasks() {
     const loginId = localStorage.getItem('loginId');
-    if (!loginId) {
-      console.error('No loginId found in localStorage.');
-      return;
-    }
-    
-    const url = `http://localhost:8080/api/tasks/${loginId}`;
-    this.http.get<string[]>(url).subscribe({
+      if (!loginId) {
+        console.error('No loginId found in localStorage.');
+        return;
+      }
+    this.taskService.fetchTasks(loginId).subscribe({
       next: (response) => {
-        this.items = response.map(task => ({ text: task, done: false }));
+        this.items = response.map((task: string) => ({ text: task, done: false }));
         this.cdRef.detectChanges();
         console.log('Fetched tasks:', this.items);
       },
@@ -54,20 +53,15 @@ export class List {
 
   addItem() {
     console.log('Adding item:', this.newItem);
-    const url = '/api/tasks';
-    const body = { 
-      loginId:localStorage.getItem('loginId'),
-      taskName: this.newItem.trim()
-    };
-    this.http.post(url, body).subscribe({
-      next: (response:any) => {
-        console.log('Task added successfully:', response);
-      },
-      error: (error) => {
-        console.error('Error adding task:', error);
-      }
-    });
 
+    this.taskService.addItem(localStorage.getItem('loginId') || '', this.newItem.trim()).subscribe({
+        next:(response:any) =>{
+          console.log('Task added successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error adding task:', error);
+        }
+    });
     const value = this.newItem.trim();
     if (!value) return;
     this.items.push({ text: value, done: false });
@@ -81,13 +75,13 @@ export class List {
         taskName: this.items[index].text
       }
 
-      this.http.delete(url, { body }).subscribe({
-        next: (response:any) => {
-          console.log('Task removed successfully:', response);
-        },
-        error: (error) => {
-          console.error('Error removing task:', error);
-        }
+      this.taskService.removeItem(localStorage.getItem('loginId') || '', this.items[index].text).subscribe({
+          next: (response:any) => {
+            console.log('Task removed successfully:', response);
+          },
+          error: (error) => {
+            console.error('Error removing task:', error);
+          }
       });
 
       this.items.splice(index, 1);

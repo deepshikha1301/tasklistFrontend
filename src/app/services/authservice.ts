@@ -9,8 +9,6 @@ export class AuthService {
 
     constructor(private http: HttpClient) {}
 
-    private readonly key = 'token';
-
     login(loginId: string, password: string): Observable<any> {
         const url = '/api/users/login';
         const body = {
@@ -21,6 +19,10 @@ export class AuthService {
     }
 
     setToken(token: string): void {
-        localStorage.setItem(this.key, token);
+        localStorage.setItem('token', token);
+    }
+
+    setLoginId(loginId: string): void {
+        localStorage.setItem('loginId', loginId);
     }
 }
