@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { Taskservice } from '../../services/taskservice';
+import { AuthService } from '../../services/authservice';
 
 interface Task {
   text: string;
@@ -23,7 +25,8 @@ export class List {
   newItem = '';
   showInput = false;
 
-  constructor(private http: HttpClient, private cdRef: ChangeDetectorRef, private taskService: Taskservice) {}
+  constructor(private http: HttpClient, private cdRef: ChangeDetectorRef, private taskService: Taskservice, 
+              private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
     this.fetchTasks();
@@ -49,6 +52,11 @@ export class List {
 
   toggleInput() {
     this.showInput = !this.showInput;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   addItem() {

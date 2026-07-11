@@ -18,6 +18,11 @@ export class AuthService {
         return this.http.post(url, body);
     }
 
+    logout():void{
+        localStorage.removeItem('loginId');
+        localStorage.removeItem('token');
+    }
+
     setToken(token: string): void {
         localStorage.setItem('token', token);
     }

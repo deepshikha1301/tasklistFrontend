@@ -6,6 +6,25 @@
   transform-origin: top center;
 }
 
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+}
+
+.logout-btn {
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-left: auto;
+}
+
 label {
   display: flex;
   flex-direction: column;
