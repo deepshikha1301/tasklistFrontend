@@ -20,11 +20,11 @@ export class AuthService {
 
     logout():void{
         localStorage.removeItem('loginId');
-        localStorage.removeItem('token');
+        localStorage.removeItem('access_token');
     }
 
     setToken(token: string): void {
-        localStorage.setItem('token', token);
+        localStorage.setItem('access_token', token);
     }
 
     setLoginId(loginId: string): void {

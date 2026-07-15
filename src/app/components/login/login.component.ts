@@ -21,7 +21,7 @@ export class LoginComponent {
   submit() {
     console.log('Login submitted:', this.loginid);
     this.authService.login(this.loginid, this.password).subscribe((res:any) => {
-      this.authService.setToken(res.token);
+      this.authService.setToken(res.access_token);
       this.authService.setLoginId(this.loginid);
       this.router.navigate(['/list']);
     })
