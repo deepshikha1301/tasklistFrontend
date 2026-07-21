@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-    constructor(private http: HttpClient) {}
+    private accessToken = '';
+
+    constructor(private http: HttpClient, private router: Router) {}
 
     login(loginId: string, password: string): Observable<any> {
         const url = '/api/users/login';
@@ -20,14 +23,25 @@ export class AuthService {
 
     logout():void{
         localStorage.removeItem('loginId');
-        localStorage.removeItem('access_token');
+        this.accessToken = '';
+        this.router.navigate(['/login']);
     }
 
     setToken(token: string): void {
-        localStorage.setItem('access_token', token);
+        this.accessToken = token;
     }
 
     setLoginId(loginId: string): void {
         localStorage.setItem('loginId', loginId);
+    }
+
+    getToken(): string {
+        return this.accessToken;
+    }
+
+    refreshAccessToken(): Observable<any> {
+        console.log('Refreshing access token...');
+        const url = '/api/users/refreshToken';
+        return this.http.post(url, {});
     }
 }
