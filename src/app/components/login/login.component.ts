@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/authservice';
@@ -18,7 +18,7 @@ export class LoginComponent {
 
   constructor(private router: Router, private http: HttpClient, private authService: AuthService) {}
 
-  submit() {
+  submit(form:NgForm) {
     console.log('Login submitted:', this.loginid);
     this.authService.login(this.loginid, this.password).subscribe((res:any) => {
       this.authService.setToken(res.access_token);

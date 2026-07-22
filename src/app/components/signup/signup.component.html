@@ -31,14 +31,28 @@
 
     <label>
       Password
-      <input type="password" name="password" [(ngModel)]="password" required #passwordControl="ngModel"/>
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        required
+        minlength="8"
+        maxlength="12"
+        pattern="^(?=.*\d)(?=.*[^A-Za-z\d]).{8,12}$"
+        #passwordControl="ngModel"
+      />
       <div *ngIf="passwordControl.invalid && (passwordControl.dirty || passwordControl.touched)" class="error">
         <span *ngIf="passwordControl.errors?.['required']">Password is required.</span>
+        <span *ngIf="passwordControl.errors?.['minlength']">Password must be at least 8 characters.</span>
+        <span *ngIf="passwordControl.errors?.['maxlength']">Password cannot exceed 12 characters.</span>
+        <span *ngIf="passwordControl.errors?.['pattern']">
+          Password must contain at least one number and one special character.
+        </span>
       </div>
     </label>
 
     <div style="margin-top:0.75rem; display:flex; justify-content:flex-end;">
-      <button type="submit" class="btn">Create Account</button>
+      <button type="submit" class="btn" [disabled]="signupForm.invalid">Create Account</button>
     </div>
   </form>
   <div *ngIf="signupError" class="error">
